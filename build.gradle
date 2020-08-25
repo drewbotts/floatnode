@@ -1,0 +1,34 @@
+apply from: gradle.oshCoreDir + '/common.gradle'
+
+repositories {
+  mavenCentral()
+}
+
+
+dependencies {
+  compile 'org.sensorhub:sensorhub-core:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-service-swe:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-storage-perst:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-tools:' + oshCoreVersion
+}
+
+distributions {
+  main {
+    baseName = 'osh-node'
+    contents {
+      from 'scripts'
+      from 'config'
+      from 'README.md'
+      into('web') {
+        from 'web'
+      }
+      into('lib') {
+        from project.configurations.compileClasspath
+      }
+      into('db'){
+        from 'data_files'
+      }
+    }
+  }
+}

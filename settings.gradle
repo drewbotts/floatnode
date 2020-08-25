@@ -1,0 +1,20 @@
+rootProject.name = 'demo-node'
+def includeDir = "$rootDir/include"
+def sensorDir = "$includeDir/osh-addons/sensors"
+//def processDir = "$includeDir/osh-addons/processing"
+def mySensorsDir = "$rootDir/sensors"
+
+// osh-core
+gradle.ext.oshCoreDir = "$includeDir/osh-core"
+includeBuild gradle.oshCoreDir
+
+// osh-persistence
+//include 'sensorhub-storage-h2'
+//project(':sensorhub-storage-h2').projectDir = "$includeDir/osh-addons/persistence/sensorhub-storage-h2" as File
+
+// osh-services
+//include 'sensorhub-service-video'
+//project(':sensorhub-service-video').projectDir = "$sensorDir/video/sensorhub-service-video" as File
+
+include 'sensorhub-driver-demo'
+project(':sensorhub-driver-demo').projectDir = "$mySensorsDir/demo" as File
