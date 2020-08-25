@@ -1,6 +1,10 @@
 [submodule "include/osh-core"]
 	path = include/osh-core
 	url = https://github.com/opensensorhub/osh-core
+	branch = improve_processing
 [submodule "include/osh-addons"]
 	path = include/osh-addons
-	url = https://github.com/opensensorhub/osh-addons
+	url = https://github.com/drewbotts/osh-addons.git
+	branch = float-gps
+[submodule "Submod"]
+	branch = sost_for_process
