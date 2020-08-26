@@ -11,11 +11,15 @@ dependencies {
   compile 'org.sensorhub:sensorhub-storage-perst:' + oshCoreVersion
   compile 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
   compile 'org.sensorhub:sensorhub-tools:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-comm-rxtx:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-comm-dio:' + oshCoreVersion
+  compile 'org.sensorhub:sensorhub-driver-gps-nmea:[1.0-2.0]'
+  compile 'org.sensorhub:sensorhub-driver-v4l:[1.0-2.0]'
 }
 
 distributions {
   main {
-    baseName = 'osh-node'
+    baseName = 'osh-float'
     contents {
       from 'scripts'
       from 'config'
