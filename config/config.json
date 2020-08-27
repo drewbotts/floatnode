@@ -1,81 +1,17 @@
 [
   {
     "objClass": "org.sensorhub.impl.service.HttpServerConfig",
-    "httpPort": 8181,
+    "httpPort": 9292,
     "httpsPort": 0,
     "staticDocRootUrl": "web",
     "servletsRootUrl": "/sensorhub",
-    "authMethod": "BASIC",
+    "authMethod": "NONE",
     "keyStorePath": ".keystore/ssl_keys",
     "trustStorePath": ".keystore/ssl_trust",
     "enableCORS": true,
     "id": "5cb05c9c-9e08-4fa1-8731-ffaa5846bdc1",
     "moduleClass": "org.sensorhub.impl.service.HttpServer",
     "name": "HTTP Server",
-    "autoStart": true
-  },
-  {
-    "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig",
-    "users": [
-      {
-        "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig$UserConfig",
-        "id": "admin",
-        "name": "Administrator",
-        "password": "admin",
-        "roles": [
-          "admin"
-        ]
-      },
-      {
-        "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig$UserConfig",
-        "id": "anonymous",
-        "name": "Anonymous User",
-        "password": "",
-        "roles": [
-          "anon"
-        ]
-      },
-      {
-        "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig$UserConfig",
-        "id": "sensor",
-        "name": "Smart Sensors",
-        "password": "pwd",
-        "roles": [
-          "sost"
-        ]
-      }
-    ],
-    "roles": [
-      {
-        "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig$RoleConfig",
-        "id": "admin",
-        "allow": [
-          "*"
-        ],
-        "deny": []
-      },
-      {
-        "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig$RoleConfig",
-        "id": "anon",
-        "allow": [
-          "sos[*]/get/*"
-        ],
-        "deny": []
-      },
-      {
-        "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig$RoleConfig",
-        "id": "sost",
-        "allow": [
-          "sos[*]/get/*",
-          "sos[*]/insert/*",
-          "sos[*]/update/*"
-        ],
-        "deny": []
-      }
-    ],
-    "id": "bd112969-8838-4f62-8d10-1edf1baa6669",
-    "moduleClass": "org.sensorhub.impl.security.BasicSecurityRealm",
-    "name": "Users",
     "autoStart": true
   },
   {
@@ -93,8 +29,81 @@
     "enableTransactional": true,
     "maxObsCount": 100,
     "maxRecordCount": 100000,
-    "dataProviders": [],
-    "dataConsumers": [],
+    "dataProviders": [
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorDataProviderConfig",
+        "sensorID": "824f9fec-a57b-4142-b321-093ff543c8b1",
+        "storageID": "d2c64a07-cec9-4379-ba5d-af03e8ca8d13",
+        "excludedOutputs": [],
+        "liveDataTimeout": 10.0,
+        "latestRecordSource": "STREAM",
+        "maxFois": 10,
+        "offeringID": "urn:osh:sensor:nmea-gps:gps",
+        "enabled": true
+      },
+      {
+        "objClass": "org.sensorhub.impl.service.sos.StreamProcessProviderConfig",
+        "processID": "f2739777-2dc5-491a-98fa-fd19d749e396",
+        "storageID": "a9e751ba-2e94-4c26-a41e-178b4444b520",
+        "excludedOutputs": [],
+        "liveDataTimeout": 10.0,
+        "latestRecordSource": "STREAM",
+        "maxFois": 10,
+        "offeringID": "urn:osh:esp8266:ds18b20-sos-process",
+        "name": "SST Statistics",
+        "enabled": true
+      },
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorDataProviderConfig",
+        "sensorID": "E0:98:06:85:FF:2D:WATERTEMP",
+        "excludedOutputs": [],
+        "liveDataTimeout": 600.0,
+        "latestRecordSource": "STREAM",
+        "maxFois": 10,
+        "offeringID": "E0:98:06:85:FF:2D:WATERTEMP-sos",
+        "enabled": true
+      },
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorDataProviderConfig",
+        "sensorID": "E0:98:06:85:FF:2D:BNO",
+        "excludedOutputs": [],
+        "liveDataTimeout": 600.0,
+        "latestRecordSource": "STREAM",
+        "maxFois": 10,
+        "offeringID": "E0:98:06:85:FF:2D:BNO-sos",
+        "enabled": true
+      },
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorDataProviderConfig",
+        "sensorID": "E0:98:06:85:FF:2D:DHT",
+        "excludedOutputs": [],
+        "liveDataTimeout": 600.0,
+        "latestRecordSource": "STREAM",
+        "maxFois": 10,
+        "offeringID": "E0:98:06:85:FF:2D:DHT-sos",
+        "enabled": true
+      }
+    ],
+    "dataConsumers": [
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorConsumerConfig",
+        "sensorID": "E0:98:06:85:FF:2D:WATERTEMP",
+        "offeringID": "E0:98:06:85:FF:2D:WATERTEMP-sos",
+        "enabled": true
+      },
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorConsumerConfig",
+        "sensorID": "E0:98:06:85:FF:2D:BNO",
+        "offeringID": "E0:98:06:85:FF:2D:BNO-sos",
+        "enabled": true
+      },
+      {
+        "objClass": "org.sensorhub.impl.service.sos.SensorConsumerConfig",
+        "sensorID": "E0:98:06:85:FF:2D:DHT",
+        "offeringID": "E0:98:06:85:FF:2D:DHT-sos",
+        "enabled": true
+      }
+    ],
     "customFormats": [
       {
         "objClass": "org.sensorhub.impl.service.sos.SOSCustomFormatConfig",
@@ -109,41 +118,31 @@
     ],
     "security": {
       "objClass": "org.sensorhub.api.security.SecurityConfig",
-      "enableAccessControl": true,
-      "requireAuth": false
+      "enableAccessControl": false,
+      "requireAuth": true
     },
     "ogcCapabilitiesInfo": {
       "objClass": "org.sensorhub.impl.service.ogc.OGCServiceConfig$CapabilitiesInfo",
-      "title": "SOS Service",
-      "description": "An SOS service automatically deployed by OpenSensorHub",
+      "title": "Test SOS-T Service",
+      "description": "An SOS-T service that can receive data from any sensor",
       "keywords": [
         "SensorHub",
-        "GPS",
-        "weather"
+        "SOS-T"
       ],
       "fees": "NONE",
       "accessConstraints": "NONE",
       "serviceProvider": {
         "objClass": "org.vast.util.ResponsibleParty",
-        "individualName": "Nicolas Garay",
-        "organizationName": "Botts Innovative Research, Inc.",
-        "positionName": "",
-        "voiceNumbers": [
-          "+1 800 123 4567"
-        ],
-        "faxNumbers": [
-          "+1 800 123 4568"
-        ],
-        "deliveryPoints": [
-          "1 Main Street"
-        ],
-        "city": "Madison",
-        "administrativeArea": "AL",
-        "postalCode": "35758",
-        "country": "United States of America",
-        "emails": [
-          "admin@bobby.com"
-        ],
+        "individualName": "Alex Robin",
+        "organizationName": "Sensia Software LLC",
+        "positionName": "Engineer",
+        "voiceNumbers": [],
+        "faxNumbers": [],
+        "deliveryPoints": [],
+        "city": "Toulouse",
+        "postalCode": "30000",
+        "country": "France",
+        "emails": [],
         "hrefPresent": false
       }
     },
@@ -154,6 +153,259 @@
     "id": "5cb05c9c-9e08-4fa1-8731-ff41e246bdc1",
     "moduleClass": "org.sensorhub.impl.service.sos.SOSService",
     "name": "SOS Service",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.sensor.nmea.gps.NMEAGpsConfig",
+    "serialNumber": "gps",
+    "commSettings": {
+      "objClass": "org.sensorhub.impl.comm.rxtx.RxtxSerialCommProviderConfig",
+      "protocol": {
+        "objClass": "org.sensorhub.impl.comm.UARTConfig",
+        "portName": "/dev/ttyUSB0",
+        "baudRate": 9600,
+        "dataBits": 8,
+        "stopBits": 1,
+        "parity": "PARITY_NONE",
+        "receiveTimeout": -1,
+        "receiveThreshold": 1
+      },
+      "moduleClass": "org.sensorhub.impl.comm.rxtx.RxtxSerialCommProvider",
+      "autoStart": false
+    },
+    "activeSentences": [
+      "GGA",
+      "GSA"
+    ],
+    "bouyID": "OSH-F-2",
+    "id": "824f9fec-a57b-4142-b321-093ff543c8b1",
+    "moduleClass": "org.sensorhub.impl.sensor.nmea.gps.NMEAGpsSensor",
+    "name": "GPS - Float 2",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.persistence.StreamStorageConfig",
+    "storageConfig": {
+      "objClass": "org.sensorhub.impl.persistence.perst.BasicStorageConfig",
+      "storagePath": "db/gps.dat",
+      "memoryCacheSize": 1024,
+      "objectCacheSize": 100,
+      "moduleClass": "org.sensorhub.impl.persistence.perst.BasicStorageImpl",
+      "autoStart": false
+    },
+    "dataSourceID": "824f9fec-a57b-4142-b321-093ff543c8b1",
+    "excludedOutputs": [],
+    "minCommitPeriod": 10000,
+    "processEvents": true,
+    "id": "d2c64a07-cec9-4379-ba5d-af03e8ca8d13",
+    "moduleClass": "org.sensorhub.impl.persistence.GenericStreamStorage",
+    "name": "GPS Storage",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.process.seasurfacetemp.SeaSurfaceTempConfig",
+    "timeFrameHours": 1.0,
+    "dataSources": [
+      {
+        "objClass": "org.sensorhub.api.processing.StreamingDataSourceConfig",
+        "producerID": "E0:98:06:85:FF:2D:WATERTEMP",
+        "decimFactor": 0,
+        "inputConnections": [
+          {
+            "objClass": "org.sensorhub.api.processing.DataSourceConfig$InputLinkConfig",
+            "source": "out",
+            "destination": "Temperature"
+          }
+        ]
+      }
+    ],
+    "id": "f2739777-2dc5-491a-98fa-fd19d749e396",
+    "moduleClass": "org.sensorhub.process.seasurfacetemp.SeaSurfaceTempProcess",
+    "name": "Sea Surface Temperature Statistics Float 2",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.client.sost.SOSTClientConfig",
+    "dataSourceID": "824f9fec-a57b-4142-b321-093ff543c8b1",
+    "excludedOutputs": [],
+    "sos": {
+      "objClass": "org.sensorhub.impl.comm.HTTPConfig",
+      "resourcePath": "/sensorhub/sos",
+      "remotePort": 443,
+      "user": "admin",
+      "password": "admin@OoT",
+      "enableTLS": true,
+      "remoteHost": "oot.bottsgeo.com",
+      "localAddress": "AUTO"
+    },
+    "connection": {
+      "objClass": "org.sensorhub.impl.client.sost.SOSTClientConfig$SOSConnectionConfig",
+      "usePersistentConnection": false,
+      "maxQueueSize": 10,
+      "maxConnectErrors": 10,
+      "checkReachability": true,
+      "connectTimeout": 3000,
+      "reconnectPeriod": 10000,
+      "reconnectAttempts": 0
+    },
+    "id": "26f27de8-03d0-4510-9aa1-4f65f55e8e2f",
+    "moduleClass": "org.sensorhub.impl.client.sost.SOSTClient",
+    "name": "GPS SOS-T ",
+    "autoStart": false
+  },
+  {
+    "objClass": "org.sensorhub.impl.persistence.StreamStorageConfig",
+    "storageConfig": {
+      "objClass": "org.sensorhub.impl.persistence.perst.BasicStorageConfig",
+      "storagePath": "db/SSTstat.dat",
+      "memoryCacheSize": 1024,
+      "objectCacheSize": 100,
+      "moduleClass": "org.sensorhub.impl.persistence.perst.BasicStorageImpl",
+      "autoStart": false
+    },
+    "dataSourceID": "f2739777-2dc5-491a-98fa-fd19d749e396",
+    "excludedOutputs": [],
+    "minCommitPeriod": 10000,
+    "processEvents": true,
+    "id": "a9e751ba-2e94-4c26-a41e-178b4444b520",
+    "moduleClass": "org.sensorhub.impl.persistence.GenericStreamStorage",
+    "name": "SST Statistics Storage",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.client.sost.SOSTClientConfig",
+    "dataSourceID": "f2739777-2dc5-491a-98fa-fd19d749e396",
+    "excludedOutputs": [],
+    "sos": {
+      "objClass": "org.sensorhub.impl.comm.HTTPConfig",
+      "resourcePath": "/sensorhub/sos",
+      "remotePort": 443,
+      "user": "admin",
+      "password": "admin@OoT",
+      "enableTLS": true,
+      "remoteHost": "oot.bottsgeo.com",
+      "localAddress": "AUTO"
+    },
+    "connection": {
+      "objClass": "org.sensorhub.impl.client.sost.SOSTClientConfig$SOSConnectionConfig",
+      "usePersistentConnection": false,
+      "maxQueueSize": 10,
+      "maxConnectErrors": 10,
+      "checkReachability": true,
+      "connectTimeout": 3000,
+      "reconnectPeriod": 10000,
+      "reconnectAttempts": 0
+    },
+    "id": "0cd0d1a1-9a57-47fd-b5e9-69e15d4117bb",
+    "moduleClass": "org.sensorhub.impl.client.sost.SOSTClient",
+    "name": "SST Statistics SOS-T",
+    "autoStart": false
+  },
+  {
+    "objClass": "org.sensorhub.impl.sensor.swe.SWETransactionalSensorConfig",
+    "id": "E0:98:06:85:FF:2D:WATERTEMP",
+    "moduleClass": "org.sensorhub.impl.sensor.swe.SWETransactionalSensor",
+    "name": "DS18B20 - Water Temp Probe - Float 2",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.sensor.swe.SWETransactionalSensorConfig",
+    "id": "E0:98:06:85:FF:2D:BNO",
+    "moduleClass": "org.sensorhub.impl.sensor.swe.SWETransactionalSensor",
+    "name": "BNO055 - IMU - Float 2",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.sensor.swe.SWETransactionalSensorConfig",
+    "id": "E0:98:06:85:FF:2D:DHT",
+    "moduleClass": "org.sensorhub.impl.sensor.swe.SWETransactionalSensor",
+    "name": "DHT22 - Temp/RelHum - Float 2",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.persistence.StreamStorageConfig",
+    "storageConfig": {
+      "objClass": "org.sensorhub.impl.persistence.perst.BasicStorageConfig",
+      "storagePath": "db/float2SST.dat",
+      "memoryCacheSize": 1024,
+      "objectCacheSize": 100,
+      "moduleClass": "org.sensorhub.impl.persistence.perst.BasicStorageImpl",
+      "autoStart": false
+    },
+    "dataSourceID": "E0:98:06:85:FF:2D:WATERTEMP",
+    "excludedOutputs": [],
+    "minCommitPeriod": 10000,
+    "processEvents": true,
+    "id": "42b4db5e-28d5-4e36-9847-5c9a5f94c707",
+    "moduleClass": "org.sensorhub.impl.persistence.GenericStreamStorage",
+    "name": "Sea Surface Temperature  Storage",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.persistence.StreamStorageConfig",
+    "storageConfig": {
+      "objClass": "org.sensorhub.impl.persistence.perst.BasicStorageConfig",
+      "storagePath": "db/float2Orientation.dat",
+      "memoryCacheSize": 1024,
+      "objectCacheSize": 100,
+      "moduleClass": "org.sensorhub.impl.persistence.perst.BasicStorageImpl",
+      "autoStart": false
+    },
+    "dataSourceID": "E0:98:06:85:FF:2D:BNO",
+    "excludedOutputs": [],
+    "minCommitPeriod": 10000,
+    "processEvents": true,
+    "id": "0a1f2215-2a57-41d8-b3e9-83be32e79c96",
+    "moduleClass": "org.sensorhub.impl.persistence.GenericStreamStorage",
+    "name": "Orientation Storage",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.persistence.StreamStorageConfig",
+    "storageConfig": {
+      "objClass": "org.sensorhub.impl.persistence.perst.BasicStorageConfig",
+      "storagePath": "db/float2Environmental.dat",
+      "memoryCacheSize": 1024,
+      "objectCacheSize": 100,
+      "moduleClass": "org.sensorhub.impl.persistence.perst.BasicStorageImpl",
+      "autoStart": false
+    },
+    "dataSourceID": "E0:98:06:85:FF:2D:DHT",
+    "excludedOutputs": [],
+    "minCommitPeriod": 10000,
+    "processEvents": true,
+    "id": "90d95ac8-2e24-4980-9032-da97d78880a9",
+    "moduleClass": "org.sensorhub.impl.persistence.GenericStreamStorage",
+    "name": "Environmental Storage",
+    "autoStart": true
+  },
+  {
+    "objClass": "org.sensorhub.impl.client.sost.SOSTClientConfig",
+    "dataSourceID": "E0:98:06:85:FF:2D:WATERTEMP",
+    "excludedOutputs": [],
+    "sos": {
+      "objClass": "org.sensorhub.impl.comm.HTTPConfig",
+      "resourcePath": "/sensorhub/sos",
+      "remotePort": 443,
+      "user": "admin",
+      "password": "admin@OoT",
+      "enableTLS": true,
+      "remoteHost": "oot.bottsgeo.com",
+      "localAddress": "AUTO"
+    },
+    "connection": {
+      "objClass": "org.sensorhub.impl.client.sost.SOSTClientConfig$SOSConnectionConfig",
+      "usePersistentConnection": false,
+      "maxQueueSize": 10,
+      "maxConnectErrors": 10,
+      "checkReachability": true,
+      "connectTimeout": 3000,
+      "reconnectPeriod": 10000,
+      "reconnectAttempts": 0
+    },
+    "id": "16c89924-005e-476e-ac56-4e66fdd64ee2",
+    "moduleClass": "org.sensorhub.impl.client.sost.SOSTClient",
+    "name": "Sea Surface Temperature",
     "autoStart": true
   }
 ]
